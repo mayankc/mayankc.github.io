@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+	<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="//d3js.org/d3.v4.min.js"></script>
+	<script src="d3-dag.js"></script>
+
+</head>
+
+<body>
+	<div class="container" style="border: 1px solid lightgray;">
+		<div class="row">
+
+			<div class="col-md-12" role="main">
+				<div class="heading text-center">
+	    		<p>Compressed Trie Generation</p>
+	  		</div>
+
+				<figure class="subheading text-center">
+					Enter words one-at-a-time, in alphabetical order
+				</figure>
+			</div>
+
+			<div class="col-lg-12" role="userinput">
+				<form class="bs-example">
+					<div class="input-group">
+						<input id="inputString" type="text" placeholder="cat, bat, rat" class="form-control" aria-label="...">
+						<div class="input-group-btn">
+							<button type="button" style="border: 1px solid;" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose MetaData<span class="caret"></span></button>
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li role="separator" class="divider"></li>
+								<li><a href="#" onclick="insertSortedString($('#inputString').val(),1);">Animal</a></li>
+								<li><a href="#" onclick="insertSortedString($('#inputString').val(),2);">Automobile</a></li>
+								<li><a href="#" onclick="insertSortedString($('#inputString').val(),3);">City</a></li>
+								<li><a href="#" onclick="insertSortedString($('#inputString').val(),4);">Other</a></li>
+							</ul>
+						</div><!-- /btn-group -->
+						<!-- <span class="input-group-btn" style="padding:0px 10px 0px 10px;" >
+            	<button id="go-button" class="btn btn-primary" type="button">Go!</button>
+          	</span> -->
+					</div><!-- /input-group -->
+				</form>
+			</div>
+
+		</div> <!--row-->
+
+		<div id="status-bar" class="alert alert-warning" style="margin-top:10px;">
+			Status:
+		</div>
+
+		<div class="row">
+
+			<div class="col-md-10" role="graph">
+
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Graph</h3>
+						</div>
+						<div id="graph" style="text-align: center;" class="panel-body">
+
+						</div>
+					</div>
+
+			</div>
+
+			<div class="col-md-2" role="register">
+
+				<div class="panel panel-info">
+	  			<div class="panel-heading">
+				    <h3 class="panel-title">Register</h3>
+				  </div>
+				  <div class="panel-body">
+						  <table id="register" class="display">
+						  </table>
+				  </div>
+				</div>
+
+			</div>
+
+			<div class="col-md-2" role="blob_register">
+
+				<div class="panel panel-info">
+	  			<div class="panel-heading">
+				    <h3 class="panel-title">Blob Register</h3>
+				  </div>
+				  <div class="panel-body">
+						  <table id="blob_register" class="display">
+						  </table>
+				  </div>
+				</div>
+
+			</div>
+
+		</div>
+		</div>
+
+</body>
+
+
+<script src="fsa.js"></script>
+
+<style>
+body {
+  font-family: 'Avenir', sans-serif !important;
+}
+
+
+.heading {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top:30px;
+    background-color: #fff;
+    border-color: #ddd;
+    border-width: 1px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    position: relative;
+    padding: 45px 15px 15px;
+    border-style: solid;
+    font-size: 2rem;
+}
+
+.subheading {
+    margin-right: 0;
+    margin-left: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+}
+
+.bs-example {
+    background-color: #fff;
+    border-color: #ddd;
+    border-width: 1px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    position: relative;
+    padding: 15px 15px 15px 15px;
+    border-style: solid;
+}
+
+
+</style>
+
+
+</html>
