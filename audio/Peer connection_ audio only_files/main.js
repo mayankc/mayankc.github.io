@@ -36,6 +36,15 @@ const offerOptions = {
   voiceActivityDetection: false
 };
 
+// grab connected audio devices
+if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices === 'function') {
+  navigator.mediaDevices.enumerateDevices().then (function(devices) {
+    devices.forEach(function(device) {
+      console.log(device.kind + ": " + device.label +   " id = " + device.deviceId);
+    });
+  });
+}
+
 function gotStream(stream) {
   hangupButton.disabled = false;
   console.log('Received local stream');
