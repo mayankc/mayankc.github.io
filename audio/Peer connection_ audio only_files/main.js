@@ -36,7 +36,7 @@ const offerOptions = {
   voiceActivityDetection: false
 };
 
-const devices;
+const devices = {};
 
 // grab connected audio devices
 if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices === 'function') {
