@@ -41,18 +41,20 @@ const devices = {};
 // grab connected audio devices
 if(navigator.mediaDevices) {
   if(navigator.mediaDevices.enumerateDevices === 'function') {
-  navigator.mediaDevices.enumerateDevices().then (function(devices) {
-    devices.forEach(function(device) {
-      if(device.kind === 'audioinput') {
-        devices[id] = device.label;
-      }
-      console.log(device.kind + ": " + device.label +   " id = " + device.deviceId);
+    navigator.mediaDevices.enumerateDevices().then (function(devices) {
+      devices.forEach(function(device) {
+        if(device.kind === 'audioinput') {
+          devices[id] = device.label;
+        }
+        console.log(device.kind + ": " + device.label +   " id = " + device.deviceId);
+      });
     });
-  });
+  }
     
   navigator.mediaDevices.addEventListener('devicechange', function(event) {
     alert(event);
   });
+    
 }
 
 function gotStream(stream) {
