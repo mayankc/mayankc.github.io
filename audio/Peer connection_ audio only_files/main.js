@@ -39,7 +39,8 @@ const offerOptions = {
 const devices = {};
 
 // grab connected audio devices
-if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices === 'function') {
+if(navigator.mediaDevices) {
+  if(navigator.mediaDevices.enumerateDevices === 'function') {
   navigator.mediaDevices.enumerateDevices().then (function(devices) {
     devices.forEach(function(device) {
       if(device.kind === 'audioinput') {
@@ -47,6 +48,10 @@ if(navigator.mediaDevices && navigator.mediaDevices.enumerateDevices === 'functi
       }
       console.log(device.kind + ": " + device.label +   " id = " + device.deviceId);
     });
+  });
+    
+  navigator.mediaDevices.addEventListener('devicechange', function(event) {
+    alert(event);
   });
 }
 
